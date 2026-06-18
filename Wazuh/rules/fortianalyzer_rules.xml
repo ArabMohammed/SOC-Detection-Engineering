@@ -1,0 +1,61 @@
+
+<!--
+-  FortiAnalyzer rules
+-  Rules created based on the Logs of FortiAnalyzer version 7.6.2
+-->
+
+<group name="fortianalyzer,">
+    <rule id="44800" level="0">
+        <decoded_as>fortianalyzer-v7</decoded_as>
+        <description>Fortianalyzer messages grouped</description>
+    </rule>
+    <!-- UTM Logs -->
+    <rule id="44801" level="1">
+        <if_sid>44800</if_sid>
+        <field name="type">utm</field>
+        <description>utm logs grouped</description>
+    </rule>
+
+    <rule id="44802" level="4">
+        <if_sid>44801</if_sid>
+        <field name="level">alert</field>
+        <field name="severity" type="pcre2" negate="yes">(?i)^(low|error).*</field>
+        <description>$(attack) with $(severity) severity has been detected</description>
+    </rule>
+
+    <!-- Traffic Logs -->
+    <rule id="44851" level="1">
+        <if_sid>44800</if_sid>
+        <field name="type">traffic</field>
+        <description>traffic logs grouped</description>
+    </rule>
+
+    <rule id="44852" level="4">
+        <if_sid>44851</if_sid>
+        <field name="level">notice</field>
+        <field name="service" type="pcre2">(?i)^(rdp).*</field>
+        <description>forward traffic</description>
+    </rule>
+
+    <rule id="44853" level="5" frequency="20" timeframe="180">
+        <if_matched_sid>44851</if_matched_sid>
+        <field name="level">warning</field>
+        <same_srcip />
+        <same_dstip />
+        <description>multiple warnings for traffic from $(srcip) to $(dstip) </description>
+    </rule>
+
+    <!-- Event Logs -->
+    <rule id="44901" level="1"> 
+        <if_sid>44800</if_sid>
+        <field name="type">event</field>
+        <description>event logs grouped</description>
+    </rule>
+
+    <rule id="44902" level="4">
+        <if_sid>44901</if_sid>
+        <field name="subtype">system</field>
+        <field name="level" type="pcre2" negate="yes">(?i)^(information|notice|debug|error).*</field>
+        <description>system event: $(msg) has been detected</description>
+    </rule>
+</group>

@@ -1,0 +1,325 @@
+<!-- 
+  FortiAnalyzer 7.6.2 via syslog 
+-->
+
+<!--Log samples -->
+
+<!-- Traffic log
+logver=702101706 timestamp=1773239329 devname="HO_HA_FG10E1" devid="FG10E1TB22901274" 
+vd="Internet-VD" date=2026-03-11 time=14:28:49 eventtime=1773224929789299235 tz="+0400" 
+logid="0000000013" type="traffic" subtype="forward" level="notice" srcip=10.10.10.241 srcport=50161 
+srcintf="VLAN3-IVD" srcintfrole="lan" dstip=23.41.38.10 dstport=443 dstintf="To_SDX_WAN"
+dstintfrole="wan" srcuuid="8b08e1d2-5d40-51e6-7d27-f23b0c8e3d9f" dstuuid="75f76200-53cc-51e6-8fd1-de1d511f35b7" 
+srccountry="Reserved" dstinetsvc="Microsoft-Web" dstcountry="Singapore" dstregion="65535" 
+dstcity="Undefined" dstreputation=5 sessionid=4130219420 proto=6 action="deny" policyid=17 
+policytype="policy" poluuid="8986ce58-5d42-51e6-28ce-079152623815" policyname="No-InternetAccess
+(blocking)" user="AFAROUK" authserver="UCS-Domain" service="Microsoft-Web" trandisp="noop"
+duration=0 sentbyte=0 rcvdbyte=0 sentpkt=0 rcvdpkt=0 appcat="unscanned" crscore=30 craction=131072
+crlevel="high" srchwvendor="HP" devtype="Router" osname="Windows" mastersrcmac="44:31:92:e8:bc:a6" 
+srcmac="44:31:92:e8:bc:a6" srcserver=0
+
+logver=700170682 timestamp=1777306867 devname="GRP1_FG1K2D" devid="FG1K2D3I17800101" vd="root" date=2026-04-27 time=16:21:07 eventtime=1777292467824482126 tz="+0400" logid="0000000013" type="traffic" subtype="forward" level="notice" srcip=172.16.5.91 srcport=10147 srcintf="LACP_CORE" srcintfrole="lan" dstip=172.16.9.77 dstport=3389 dstintf="Untrust_PAM_333" dstintfrole="lan" srccountry="Reserved" dstcountry="Reserved" sessionid=838216954 proto=6 action="close" policyid=307 policytype="policy" poluuid="2de72f0c-3ef1-51f1-1455-cc39dfea6e7b" policyname="Logging RDP" service="RDP" trandisp="noop" duration=14 sentbyte=220 rcvdbyte=172 sentpkt=5 rcvdpkt=4 appcat="unscanned" srchwvendor="Milestone Syste" devtype="Home & Office" srcfamily="Computer" osname="Fortinet FortiOS" srchwversion="Milestone XProtect Mobile Serve" mastersrcmac="00:09:0f:09:64:1c" srcmac="00:09:0f:09:64:1c" srcserver=0 dsthwvendor="VMware" dstosname="Windows" dstswversion="10" dstunauthuser="adm" dstunauthusersource="kerberos" masterdstmac="00:50:56:a4:d7:03" dstmac="00:50:56:a4:d7:03" dstserver=0
+-->
+
+<!-- UTM logs
+logver=704092829 timestamp=1773323501 devname="A-Branch-FW1" devid="FGT60FTK2109BTT0" vd="root" date=2026-03-12 time=13:51:41 eventtime=1773309101098545109 tz="+0400" logid="0315012544" type="utm" subtype="webfilter" eventtype="urlfilter" level="warning" urlfilteridx=35 urlfilterlist="Healthy websites_1" policyid=78 poluuid="eac3a702-0e90-51ee-6139-32640d4f4056" policytype="policy" sessionid=205348778 user="NAVSAL" authserver="UCS-Domain" srcip=172.18.18.205 srcport=50578 srccountry="Reserved" srcintf="AP_300" srcintfrole="lan" srcuuid="1bb8fea0-c248-51e4-8ae3-e91dfcbe42e4" dstip=199.230.214.172 dstport=80 dstcountry="United States" dstintf="wan1" dstintfrole="wan" dstuuid="1bb8fea0-c248-51e4-8ae3-e91dfcbe42e4" proto=6 httpmethod="GET" service="HTTP" hostname="ctldl.windowsupdate.com" agent="Microsoft-CryptoAPI/10.0" profile="Healthy websites_1" action="blocked" reqtype="direct" url="http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?95f744e31a4c3d51" sentbyte=196 rcvdbyte=0 direction="outgoing" urlsource="Local URLfilter Block" msg="URL was blocked because it is in the URL filter list" crscore=30 craction=8 crlevel="high"
+
+
+logver=700170682 timestamp=1773326930 devname="GRP1_FG1K2D" devid="FG1K2D3I17800101" vd="root"date=2026-03-12 time=14:48:50 eventtime=1773312530277208373 tz="+0400" logid="0419016384" type="utm" subtype="ips" eventtype="signature" level="alert" severity="low" srcip=172.16.36.206 srccountry="Reserved" dstip=192.9.200.25 dstcountry="United States" srcintf="LACP_CORE" srcintfrole="lan" dstintf="Trust_Server_10" dstintfrole="lan" sessionid=1946269853 action="detected" proto=6 service="HTTP" policyid=12  poluuid="94cb1e64-9dd2-51e7-1828-b0905051f514" policytype="policy" attack="HTTP.Request.Smuggling" srcport=49266 dstport=90 hostname="192.9.200.25" url="/iclock/cdata?SN=6614144600150&table=ATTLOG&Stamp=759487443" direction="outgoing" attackid=107347979 profile="UCS-IPS" ref="http://www.fortinet.com/ids/VID107347979" dstuser="M.HABIB" dstauthserver="UCS-Domain" incidentserialno=272435658 msg="http_decoder: HTTP.Request.Smuggling" crscore=5 craction=32768 crlevel="low"
+
+logver=704112878 timestamp=1773326932 devname="KAH-Mall-Internet" devid="FGT60FTK24044438"
+vd="root" date=2026-03-12 time=14:48:52 eventtime=1773312532753904289 tz="+0400" logid="0720018432" type="utm"
+subtype="anomaly" eventtype="anomaly" level="alert" severity="critical" srcip=43.168.27.242 srccountry="US" dstip=2.50.191.150 dstcountry="US" srcintf="wan2" srcintfrole="wan" sessionid=0 
+action="detected" proto=17 service="udp/51702" count=53011 attack="udp_flood" srcport=443 dstport=51702 
+attackid=285212772 policyid=1 policytype="DoS-policy" ref="http://www.fortinet.com/ids/VID285212772" 
+msg="anomaly: udp_flood, 2309 > threshold 2000, repeats 53011 times since last log, pps 2332 of
+prior second" crscore=50 craction=4096 crlevel="critical"
+-->
+
+<!-- Event log 
+logver=704112878 timestamp=1773324127 devname="JUM-FW-Mall-Internet" devid="FGT60FTK22081032" 
+vd="root" date=2026-03-12 time=14:02:07 eventtime=1773309727353617319 tz="+0400" 
+logid="0100026001" type="event" subtype="system" level="alert" logdesc="DHCP Ack log" 
+interface="Trust.1" dhcp_msg="Ack" mac="EA:84:B1:22:F3:DB" ip=10.207.4.38 lease=36000 
+hostname="N/A" msg="DHCP server sends a DHCPACK"
+-->
+
+<decoder name="fortianalyzer-v7">
+  <prematch type="pcre2">logver=\d+\s+timestamp=\d+\s+devname="[^"]+"\s+devid="[^"]+"\s+vd="[^"]+"\s+date=\d{4}-\d{2}-\d{2}\s+time=\d{2}:\d{2}:\d{2}</prematch>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>eventtime="(\.*)"|eventtime=(\.*)\s|eventtime=(\.*)$</regex>
+  <order>eventtime</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>devname="(\.*)"|devname=(\.*)\s|devname=(\.*)$</regex>
+  <order>devname</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>devid="(\.*)"|devid=(\.*)\s|devid=(\.*)$</regex>
+  <order>devid</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>date="(\.*)"|date=(\.*)\s|date=(\.*)$</regex>
+  <order>date</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>time="(\.*)"|time=(\.*)\s|time=(\.*)$</regex>
+  <order>time</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>type="(\.*)"|type=(\.*)\s|type=(\.*)$</regex>
+  <order>type</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>eventtype="(\.*)"|eventtype=(\.*)\s|eventtype=(\.*)$</regex>
+  <order>eventtype</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>subtype="(\.*)"|subtype=(\.*)\s|subtype=(\.*)$</regex>
+  <order>subtype</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>level="(\.*)"|level=(\.*)\s|level=(\.*)$</regex>
+  <order>level</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>severity="(\.*)"|severity=(\.*)\s|severity=(\.*)$</regex>
+  <order>severity</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>urlfilteridx="(\.*)"|urlfilteridx=(\.*)\s|urlfilteridx=(\.*)$</regex>
+  <order>urlfilteridx</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>urlfilterlist="(\.*)"|urlfilterlist=(\.*)\s|urlfilterlist=(\.*)$</regex>
+  <order>urlfilterlist</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>srcip="(\.*)"|srcip=(\.*)\s|srcip=(\.*)$</regex>
+  <order>srcip</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>srcport="(\.*)"|srcport=(\.*)\s|srcport=(\.*)$</regex>
+  <order>srcport</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstip="(\.*)"|dstip=(\.*)\s|dstip=(\.*)$</regex>
+  <order>dstip</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstport="(\.*)"|dstport=(\.*)\s|dstport=(\.*)$</regex>
+  <order>dstport</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>srccountry="(\.*)"|srccountry=(\.*)\s|srccountry=(\.*)$</regex>
+  <order>srccountry</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstinetsvc="(\.*)"|dstinetsvc=(\.*)\s|dstinetsvc=(\.*)$</regex>
+  <order>dstinetsvc</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstcountry="(\.*)"|dstcountry=(\.*)\s|dstcountry=(\.*)$</regex>
+  <order>dstcountry</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstregion="(\.*)"|dstregion=(\.*)\s|dstregion=(\.*)$</regex>
+  <order>dstregion</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstcity="(\.*)"|dstcity=(\.*)\s|dstcity=(\.*)$</regex>
+  <order>dstcity</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstreputation="(\.*)"|dstreputation=(\.*)\s|dstreputation=(\.*)$</regex>
+  <order>dstreputation</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>httpmethod="(\.*)"|httpmethod=(\.*)\s|httpmethod=(\.*)$</regex>
+  <order>httpmethod</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>proto="(\.*)"|proto=(\.*)\s|proto=(\.*)$</regex>
+  <order>proto</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>action="(\.*)"|action=(\.*)\s|action=(\.*)$</regex>
+  <order>action</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>policyid="(\.*)"|policyid=(\.*)\s|policyid=(\.*)$</regex>
+  <order>policyid</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>policytype="(\.*)"|policytype=(\.*)\s|policytype=(\.*)$</regex>
+  <order>policytype</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>attack="(\.*)"|attack=(\.*)\s|attack=(\.*)$</regex>
+  <order>attack</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>policyname="(\.*)"|policyname=(\.*)\s|policyname=(\.*)$</regex>
+  <order>policyname</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>user="(\.*)"|user=(\.*)\s|user=(\.*)$</regex>
+  <order>user</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>authserver="(\.*)"|authserver=(\.*)\s|authserver=(\.*)$</regex>
+  <order>authserver</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>service="(\.*)"|service=(\.*)\s|service=(\.*)$</regex>
+  <order>service</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>profile="(\.*)"|profile=(\.*)\s|profile=(\.*)$</regex>
+  <order>profile</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>hostname="(\.*)"|hostname=(\.*)\s|hostname=(\.*)$</regex>
+  <order>hostname</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>url="(\.*)"|url=(\.*)\s|url=(\.*)$</regex>
+  <order>url</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>direction="(\.*)"|direction=(\.*)\s|direction=(\.*)$</regex>
+  <order>direction</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>msg="(\.*)"|msg=(\.*)\s|msg=(\.*)$</regex>
+  <order>msg</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>appcat="(\.*)"|appcat=(\.*)\s|appcat=(\.*)$</regex>
+  <order>appcat</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>crscore="(\.*)"|crscore=(\.*)\s|crscore=(\.*)$</regex>
+  <order>crscore</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>crlevel="(\.*)"|crlevel=(\.*)\s|crlevel=(\.*)$</regex>
+  <order>crlevel</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>devtype="(\.*)"|devtype=(\.*)\s|devtype=(\.*)$</regex>
+  <order>devtype</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>osname="(\.*)"|osname=(\.*)\s|osname=(\.*)$</regex>
+  <order>osname</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>logdesc="(\.*)"|logdesc=(\.*)\s|logdesc=(\.*)$</regex>
+  <order>logdesc</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>ip="(\.*)"|ip=(\.*)\s|ip=(\.*)$</regex>
+  <order>ip</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstunauthuser="(\.*)"|dstunauthuser=(\.*)\s|dstunauthuser=(\.*)$</regex>
+  <order>dstunauthuser</order>
+</decoder>
+
+<decoder name="fortianalyzer-v7-fields">
+  <parent>fortianalyzer-v7</parent>
+  <regex>dstuser="(\.*)"|dstuser=(\.*)\s|dstuser=(\.*)$</regex>
+  <order>dstuser</order>
+</decoder>

@@ -1,0 +1,37 @@
+<group name="f5-asm,">
+    <rule id="65293" level="0">
+        <decoded_as>f5-asm</decoded_as>
+        <description>F5 ASM decoded grouped alerts</description>
+    </rule>
+
+    <!-- ASM Violations -->
+    <rule id="65296" level="3">
+        <if_sid>65293</if_sid>
+        <field name="attack_type" type="pcre2" negate="yes">(?i)^(NA|N\/A|Other Application Activity).*</field>
+        <description>
+            F5 ASM: Violation detected, attack $(attack_type) has been detected
+        </description>
+        <options>no_log</options>
+    </rule>
+
+    <rule id="65297" level="10">
+        <if_sid>65296</if_sid>
+        <field name="severity" type="pcre2" negate="yes">(?i)^(Informational|Error).*</field>
+        <description>attack $(attack_type) has been detected</description>
+        <!--<options>no_log</options>-->
+    </rule>
+
+    <rule id="65299" level="12">
+        <if_sid>65293</if_sid>
+        <field name="virus_type" type="pcre2" negate="yes">(?i)^(NA|N\/A|Other Application Activity).*</field>
+        <description>F5 ASM: Violation detected, Virus $(virus_name) has been detected</description>
+    </rule>
+
+    <!-- correlation rules -->
+    <rule id="65300" level="12" frequency="5" timeframe="300">
+        <if_matched_sid>65297</if_matched_sid>
+        <same_field>ip_client</same_field>
+        <same_field>attack_type</same_field>
+        <description>multiple attack attempts $(attack_type) has been detected from $(ip_client)</description>
+    </rule>
+</group>

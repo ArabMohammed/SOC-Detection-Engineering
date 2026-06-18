@@ -1,0 +1,290 @@
+<!--
+F5 Logs decoder : 
+Resources : 
+https://techdocs.f5.com/kb/en-us/products/big-ip_asm/manuals/product/asm-implementations-12-1-0/14.html
+https://techdocs.f5.com/kb/en-us/products/big-ip_apm/manuals/product/apm-portal-access-13-0-0/9.html
+
+Log samples:
+Application Security Manager (ASM) logs : 
+Jun 18 15:01:32 UCS-PR-F5-02.eagle.com ASM:unit_hostname="UCS-PR-F5-02.eagle.com",management_ip_address="172.16.3.8",management_ip_address_2="N/A",http_class_name="/DMZ/ASM_WEBMAIL_POLICY",web_application_name="/DMZ/ASM_WEBMAIL_POLICY",policy_name="/DMZ/ASM_WEBMAIL_POLICY",policy_apply_date="2026-05-25 14:21:26",violations="Illegal query string length,Illegal request length,Illegal URL length,Illegal file type",support_id="344679260191567922",request_status="blocked",response_code="0",ip_client="172.236.16.65",route_domain="2",method="GET",protocol="HTTPS",query_string="user=admin",x_forwarded_for_header_value="172.236.16.65",sig_ids="N/A",sig_names="N/A",date_time="2026-06-18 15:01:32",severity="Critical",attack_type="Buffer Overflow,Forceful Browsing",geo_location="US",ip_address_intelligence="N/A",username="N/A",session_id="0",src_port="5389",dest_port="443",dest_ip="172.16.50.54",sub_violations="N/A",virus_name="N/A",violation_rating="3",websocket_direction="N/A",websocket_message_type="N/A",device_id="N/A",staged_sig_ids="N/A",staged_sig_names="N/A",threat_campaign_names="N/A",staged_threat_campaign_names="N/A",blocking_exception_reason="N/A",captcha_result="not_received",microservice="N/A",tap_event_id="N/A",tap_vid="N/A",vs_name="/DMZ/VS_Webmail_DMZ_443",sig_cves="N/A",staged_sig_cves="N/A",uri="/get_dkey.php",fragment="",request="GET /get_dkey.php?user=admin HTTP/1.1\r\nHost: 5.195.37.161\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15\r\nConnection: close\r\nAccept: */*\r\nAccept-Language: en\r\nAccept-Encoding: gzip\r\nX-Forwarded-For: 173.236.16.65\r\n\r\n",response="Response logging disabled"
+Jun 18 14:58:23 UCS-PR-F5-02.eagle.com ASM:unit_hostname="UCS-PR-F5-02.eagle.com",management_ip_address="172.16.3.8",management_ip_address_2="N/A",http_class_name="/DMZ/DMZ_42",web_application_name="/DMZ/DMZ_42",policy_name="/DMZ/DMZ_42",policy_apply_date="2026-05-25 14:24:13",violations="HTTP protocol compliance failed,Illegal query string length,Illegal request length,Illegal URL length,Illegal file type,Attack signature detected",support_id="344679260191627089",request_status="blocked",response_code="0",ip_client="174.230.16.65",route_domain="2",method="GET",protocol="HTTPS",query_string="log_cnt=<img%20onerror=alert(document.domain)%20src=1>",x_forwarded_for_header_value="172.236.16.65",sig_ids="200001192,200001088,200000128",sig_names="onError...() (Parameter),alert() (Parameter),img tag: src/dynsrc/lowsrc (Parameter)",date_time="2026-06-18 14:58:23",severity="Critical",attack_type="Buffer Overflow,Cross Site Scripting (XSS),HTTP Parser Attack,Forceful Browsing",geo_location="US",ip_address_intelligence="N/A",username="N/A",session_id="0",src_port="50117",dest_port="443",dest_ip="172.16.50.42",sub_violations="HTTP protocol compliance failed:Host header contains IP address",virus_name="N/A",violation_rating="4",websocket_direction="N/A",websocket_message_type="N/A",device_id="N/A",staged_sig_ids="200001088,200001659",staged_sig_names="alert() (Parameter),document[] (Parameter)",threat_campaign_names="N/A",staged_threat_campaign_names="N/A",blocking_exception_reason="N/A",captcha_result="not_received",microservice="N/A",tap_event_id="N/A",tap_vid="N/A",vs_name="/DMZ/Vs_DMZ_42_443",sig_cves="N/A",staged_sig_cves="N/A",uri="/bitrix/components/bitrix/socialnetwork.events_dyn/get_message_2.php",fragment="",request="GET /bitrix/components/bitrix/socialnetwork.events_dyn/get_message_2.php?log_cnt=<img%20onerror=alert(document.domain)%20src=1> HTTP/1.1\r\nHost: 5.195.37.165\r\nUser-Agent: Mozilla/5.0 (Ubuntu; Linux i686; rv:121.0) Gecko/20100101 Firefox/121.0\r\nConnection: close\r\nAccept: */*\r\nAccept-Language: en\r\nAccept-Encoding: gzip\r\nX-Forwarded-For: 172.236.16.65\r\n\r\n",response="Response logging disabled"
+Jun 18 11:35:40 UCS-PR-F5-02.eagle.com ASM:unit_hostname="UCS-PR-F5-02.eagle.com",management_ip_address="172.16.3.8",management_ip_address_2="N/A",http_class_name="/DMZ/DMZ_42",web_application_name="/DMZ/DMZ_42",policy_name="/DMZ/DMZ_42",policy_apply_date="2026-05-25 14:24:13",violations="HTTP protocol compliance failed,Illegal request length,Illegal URL length,Illegal POST data length,Illegal file type,Attack signature detected",support_id="344679260191561493",request_status="blocked",response_code="0",ip_client="31.132.90.3",route_domain="2",method="GET",protocol="HTTPS",query_string="",x_forwarded_for_header_value="31.132.90.3",sig_ids="200103001",sig_names="PHPunit eval-stdin.php code injection",date_time="2026-06-18 11:35:40",severity="Critical",attack_type="Buffer Overflow,Command Execution,HTTP Parser Attack,Forceful Browsing",geo_location="KZ",ip_address_intelligence="N/A",username="N/A",session_id="0",src_port="57004",dest_port="443",dest_ip="172.16.50.42",sub_violations="HTTP protocol compliance failed:Host header contains IP address",virus_name="N/A",violation_rating="3",websocket_direction="N/A",websocket_message_type="N/A",device_id="N/A",staged_sig_ids="N/A",staged_sig_names="N/A",threat_campaign_names="N/A",staged_threat_campaign_names="N/A",blocking_exception_reason="N/A",captcha_result="not_received",microservice="N/A",tap_event_id="N/A",tap_vid="N/A",vs_name="/DMZ/Vs_DMZ_42_443",sig_cves="CVE-2017-9841",staged_sig_cves="N/A",uri="/demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php",fragment="",request="GET /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php HTTP/1.1\r\nHost: 5.195.37.165:443\r\nUpgrade-Insecure-Requests: 1\r\nAccept: */*\r\nUser-Agent: libredtail-http\r\nConnection: keep-alive\r\nContent-Type: text/plain\r\nContent-Length: 33\r\nX-Forwarded-For: 31.132.90.3\r\n\r\n<?php echo(md5(%22Hello PHPUnit%22));",response="Response logging disabled"
+
+
+-->
+
+<!-- F ASM decoder -->
+<decoder name="f5-asm">
+  <type>syslog</type>
+  <program_name>ASM</program_name>
+</decoder>
+
+<decoder name="f5-asm">
+  <type>syslog</type>
+  <prematch type="pcre2">CEF:0\|F5\|ASM\|[^\|]+\|(.+)|CEF:0\|F5\|[^\|]+\|[^\|]+\|.+</prematch>
+</decoder>
+
+<!-- ASM Fields  -->
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>attack_type="(\.*)"|attack_type=(\.*)\s|attack_type=(\.*)$</regex>
+  <order>attack_type</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>blocking_exception_reason="(\.*)"|blocking_exception_reason=(\.*)\s|blocking_exception_reason=(\.*)$</regex>
+  <order>blocking_exception_reason</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>captcha_result="(\.*)"|captcha_result=(\.*)\s|captcha_result=(\.*)$</regex>
+  <order>captcha_result</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>date_time="([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})"$</regex>
+  <order>date_time</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>dest_ip="(\.*)"|dest_ip=(\.*)\s|dest_ip=(\.*)$</regex>
+  <order>dstip</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>dest_port="(\.*)"|dest_port=(\.*)\s|dest_port=(\.*)$</regex>
+  <order>dest_port</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>device_id="(\.*)"|device_id=(\.*)\s|device_id=(\.*)$</regex>
+  <order>device_id</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>fragment="(\.*)"|fragment=(\.*)\s|fragment=(\.*)$</regex>
+  <order>fragment</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>geo_location="(\.*)"|geo_location=(\.*)\s|geo_location=(\.*)$</regex>
+  <order>geo_location</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>http_class_name="(\.*)"|http_class_name=(\.*)\s|http_class_name=(\.*)$</regex>
+  <order>http_class_name</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>ip_address_intelligence="(\.*)"|ip_address_intelligence=(\.*)\s|ip_address_intelligence=(\.*)$</regex>
+  <order>ip_address_intelligence</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>ip_client="(\.*)"|ip_client=(\.*)\s|ip_client=(\.*)$</regex>
+  <order>srcip</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>method="(\.*)"|method=(\.*)\s|method=(\.*)$</regex>
+  <order>method</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>microservice="(\.*)"|microservice=(\.*)\s|microservice=(\.*)$</regex>
+  <order>microservice</order>
+</decoder> 
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>policy_apply_date="([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})"$</regex>
+  <order>policy_apply_date</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>policy_name="(\.*)"|policy_name=(\.*)\s|policy_name=(\.*)$</regex>
+  <order>policy_name</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>protocol="(\.*)"|protocol=(\.*)\s|protocol=(\.*)$</regex>
+  <order>protocol</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>query_string="(\.*)"|query_string=(\.*)\s|query_string=(\.*)$</regex>
+  <order>query_string</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>request_status="(\.*)"|request_status=(\.*)\s|request_status=(\.*)$</regex>
+  <order>request_status</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>request="(\.*)"|request=(\.*)\s|request=(\.*)$</regex>
+  <order>request</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>response_code="(\.*)"|response_code=(\.*)\s|response_code=(\.*)$</regex>
+  <order>response_code</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>route_domain="(\.*)"|route_domain=(\.*)\s|route_domain=(\.*)$</regex>
+  <order>route_domain</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>session_id="(\.*)"|session_id=(\.*)\s|session_id=(\.*)$</regex>
+  <order>session_id</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>severity="(\.*)"|severity=(\.*)\s|severity=(\.*)$</regex>
+  <order>severity</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>sig_cves="(\.*)"|sig_cves=(\.*)\s|sig_cves=(\.*)$</regex>
+  <order>sig_cves</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>sig_ids="(\.*)"|sig_ids=(\.*)\s|sig_ids=(\.*)$</regex>
+  <order>sig_ids</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>sig_names="(\.*)"|sig_names=(\.*)\s|sig_names=(\.*)$</regex>
+  <order>sig_names</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>src_port="(\.*)"|src_port=(\.*)\s|src_port=(\.*)$</regex>
+  <order>src_port</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>staged_sig_cves="(\.*)"|staged_sig_cves=(\.*)\s|staged_sig_cves=(\.*)$</regex>
+  <order>staged_sig_cves</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>staged_sig_ids="(\.*)"|staged_sig_ids=(\.*)\s|staged_sig_ids=(\.*)$</regex>
+  <order>staged_sig_ids</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>staged_sig_names="(\.*)"|staged_sig_names=(\.*)\s|staged_sig_names=(\.*)$</regex>
+  <order>staged_sig_names</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>staged_threat_campaign_names="(\.*)"|staged_threat_campaign_names=(\.*)\s|staged_threat_campaign_names=(\.*)$</regex>
+  <order>staged_threat_campaign_names</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>sub_violations="(\.*)"|sub_violations=(\.*)\s|sub_violations=(\.*)$</regex>
+  <order>sub_violations</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>threat_campaign_names="(\.*)"|threat_campaign_names=(\.*)\s|threat_campaign_names=(\.*)$</regex>
+  <order>threat_campaign_names</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>uri="(\.*)"|uri=(\.*)\s|uri=(\.*)$</regex>
+  <order>uri</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>username="(\.*)"|username=(\.*)\s|username=(\.*)$</regex>
+  <order>username</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>violation_rating="(\.*)"|violation_rating=(\.*)\s|violation_rating=(\.*)$</regex>
+  <order>violation_rating</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>violations="(\.*)"|violations=(\.*)\s|violations=(\.*)$</regex>
+  <order>violations</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>virus_name="(\.*)"|virus_name=(\.*)\s|virus_name=(\.*)$</regex>
+  <order>virus_name</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>web_application_name="(\.*)"|web_application_name=(\.*)\s|web_application_name=(\.*)$</regex>
+  <order>web_application_name</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>websocket_direction="(\.*)"|websocket_direction=(\.*)\s|websocket_direction=(\.*)$</regex>
+  <order>websocket_direction</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>websocket_message_type="(\.*)"|websocket_message_type=(\.*)\s|websocket_message_type=(\.*)$</regex>
+  <order>websocket_message_type</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>x_forwarded_for_header_value="(\.*)"|x_forwarded_for_header_value=(\.*)\s|x_forwarded_for_header_value=(\.*)$</regex>
+  <order>x_forwarded_for_header_value</order>
+</decoder>
+
+<decoder name="f5-asm-fields">
+  <parent>f5-asm</parent>
+  <regex>host="(\.*)"|host=(\.*)\s|host=(\.*)$</regex>
+  <order>host</order>
+</decoder>

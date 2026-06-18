@@ -1,0 +1,319 @@
+<!--
+  Palo Alto v11.X decoders.
+-->
+
+
+<!--******************Palo Alto User-ID decoders******************* -->
+<!--
+Feb 11 17:46:22 PANFW01 LEEF:2.0|
+Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|login
+|x7C|ProfileToken=0x0|TimeReceived=2026/02/11 17:46:21|
+DeviceSN=016201046640|cat=USERID|ConfigVersion=11.1.6-h3|
+devTime=Feb 11 2026 13:46:21 GMT|VirtualLocation=vsys1|src=192.9.200.90|
+usrName=eagle\UCSDEVSPSRV01$|MappingDataSourceName=ucprdc02.eagle.com|
+EventIdName=0|CountofRepeats=1|MappingTimeout=0|srcPort=0|dstPort=0|
+MappingDataSource=active-directory|MappingDataSourceType=|
+SequenceNo=7484098497199366899|DGHierarchyLevel1=0|DGHierarchyLevel2=0|
+DGHierarchyLevel3=0|DGHierarchyLevel4=0|VirtualSystemName=|DeviceName=PANFW01|
+VirtualSystemID=1|MFAFactorType=|AuthCompletionTime=2026/02/11 17:37:19|
+AuthFactorNo=1|UGFlags=0x0|UserIdentifiedBySource=eagle\UCSDEVSPSRV01$|
+Tag=|TimeGeneratedHighResolution=2026-02-11T17:46:22.429+04:00|
+devTimeFormat=Feb 11 2026 13:46:21 GMT
+-->
+<!--
+  Fields : devTime, VirtualLocation, src, usrName, MappingDataSourceName, EventIdName, CountofRepeats,MappingTimeout,srcPort, dstPort,
+  MappingDataSource, MappingDataSourceType, SequenceNo, DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3, DGHierarchyLevel4,
+  VirtualSystemName, DeviceName, VirtualSystemID,MFAFactorType,AuthCompletionTime, AuthFactorNo, UGFlags, UserIdentifiedBySource, Tag,
+-->
+
+<decoder name="paloalto-userid">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=USERID</prematch>
+</decoder>
+
+<decoder name="paloalto-userid-fields">
+    <parent>paloalto-userid</parent>
+    <regex>\.*\|(\.*)\|\.*\|\.*\|\.*\|devTime=(\.*)\|VirtualLocation=(\.*)\|src=(\.*)\|usrName=(\.*)\|MappingDataSourceName=(\.*)\|EventIdName=(\.*)\|CountofRepeats=(\.*)\|MappingTimeout=(\.*)\|srcPort=(\.*)\|dstPort=(\.*)\|\.*</regex>
+    <order>subType,devTime,virtualLocation,srcip,username,mappingDataSourceName,eventIdName,countofRepeats,mappingTimeout,srcport,dstport</order>
+</decoder>
+
+<decoder name="paloalto-userid-fields">
+    <parent>paloalto-userid</parent>
+    <regex>\.*\|MappingDataSource=(\.*)\|MappingDataSourceType=(\.*)\|SequenceNo=(\.*)\|DGHierarchyLevel1=(\.*)\|DGHierarchyLevel2=(\.*)\|DGHierarchyLevel3=(\.*)\|DGHierarchyLevel4=(\.*)\|\.*</regex>
+    <order>mappingDataSource,mappingDataSourceType,sequenceNo,DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3,DGHierarchyLevel4</order>
+</decoder>
+
+<decoder name="paloalto-userid-fields">
+    <parent>paloalto-userid</parent>
+    <regex>\.*\|VirtualSystemName=(\.*)\|DeviceName=(\.*)\|VirtualSystemID=(\.*)\|MFAFactorType=(\.*)\|AuthCompletionTime=(\.*)\|AuthFactorNo=(\.*)\|UGFlags=(\.*)\|UserIdentifiedBySource=(\.*)\|Tag=(\.*)\|\.*</regex>
+    <order>virtualSystemName,deviceName,virtualSystemID,mfaFactorType,authCompletionTime,authFactorNo,ugFlags,userIdentifiedBySource,tag</order>
+</decoder>
+
+<!--******************Palo Alto IPTAG decoders******************* -->
+<!--
+Feb 12 13:30:17 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|
+11.1.6-h3|register|x7C|ProfileToken=0x0|TimeReceived=2026/02/12 13:30:16|DeviceSN=016201046640|
+cat=IPTAG|SubType=0|ConfigVersion=11.1.6-h3|devTime=Feb 12 2026 09:30:16 GMT|VirtualLocation=vsys1|
+src=172.16.26.54|TagName=[Machine Authenticated]|CountOfRepeats=1|MappingTimeout=0|
+MappingDataSource=XMLAPI|MappingDataSourceType=xml-api|MappingDataSourceSubType=unknown|SequenceNo=7484098496031649376|
+DGHierarchyLevel1=0|DGHierarchyLevel2=0|DGHierarchyLevel3=0|DGHierarchyLevel4=0|VirtualSystemName=|DeviceName=PANFW01|
+VirtualSystemID=1|IPSubnetRange=|TimeGeneratedHighResolution=2026-02-12T13:30:17.139+04:00|devTimeFormat=Feb 12 2026 09:30:16 GMT
+-->
+<!--
+  Fields : devTime, VirtualLocation, src, TagName,CountOfRepeats,MappingTimeout,
+  MappingDataSource,MappingDataSourceType,MappingDataSourceSubType,SequenceNo,DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3,DGHierarchyLevel4,
+  VirtualSystemName,DeviceName,VirtualSystemID,IPSubnetRange,
+-->
+
+<decoder name="paloalto-iptag">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=IPTAG</prematch>
+</decoder>
+
+<decoder name="paloalto-iptag-fields">
+    <parent>paloalto-iptag</parent>
+    <regex>\.*\|SubType=(\.*)\|ConfigVersion=\.*\|devTime=(\.*)\|VirtualLocation=(\.*)\|src=(\.*)\|TagName=(\.*)\|CountofRepeats=(\.*)\|MappingTimeout=(\.*)\|\.*</regex>
+    <order>subType,devTime,virtualLocation,srcip,tagName,countofRepeats,mappingTimeout</order>
+</decoder>
+
+<decoder name="paloalto-iptag-fields">
+    <parent>paloalto-iptag</parent>
+    <regex>\.*\|MappingDataSource=(\.*)\|MappingDataSourceType=(\.*)\|MappingDataSourceSubType=(\.*)\|SequenceNo=(\.*)\|DGHierarchyLevel1=(\.*)\|DGHierarchyLevel2=(\.*)\|DGHierarchyLevel3=(\.*)\|DGHierarchyLevel4=(\.*)\|\.*</regex>
+    <order>mappingDataSource,mappingDataSourceType,mappingDataSourceSubType,sequenceNo,DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3,DGHierarchyLevel4</order>
+</decoder>
+
+<decoder name="paloalto-iptag-fields">
+    <parent>paloalto-iptag</parent>
+    <regex>\.*\|VirtualSystemName=(\.*)\|DeviceName=(\.*)\|VirtualSystemID=(\.*)\|IPSubnetRange=(\.*)\|\.*</regex>
+    <order>virtualSystemName,deviceName,virtualSystemID,ipSubnetRange</order>
+</decoder>
+
+<!--******************Palo Alto SYSTEM decoders******************* -->
+<!--
+Feb 12 13:34:18 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|
+auth-success|x7C|TimeReceived=2026/02/12 13:34:17|DeviceSN=016201046640|cat=SYSTEM|Subtype=auth|
+devTime=Feb 12 2026 09:34:17 GMT|VirtualSystem=|Filename=|Module=general|sev=1|Severity=informational|
+msg="authenticated for user 'seyam_backup'.   From: 172.16.3.99."|sequence=7484098496036218022|ActionFlags=0x0|
+DeviceGroupHierarchyL1=0|DeviceGroupHierarchyL2=0|DeviceGroupHierarchyL3=0|DeviceGroupHierarchyL4=0|vSrcName=|DeviceName=PANFW01
+-->
+<!--
+  Fields: Subtype,devTime,VirtualSystem,Filename,Module,sev,Severity,msg,sequence,ActionFlags,
+  DeviceGroupHierarchyL1,DeviceGroupHierarchyL2,DeviceGroupHierarchyL3,DeviceGroupHierarchyL4,vSrcName,DeviceName
+-->
+
+<decoder name="paloalto-system">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=SYSTEM</prematch>
+</decoder>
+
+<decoder name="paloalto-system-fields">
+    <parent>paloalto-system</parent>
+    <regex>\.*\|Subtype=(\.*)\|devTime=(\.*)\|VirtualSystem=(\.*)\|Filename=(\.*)\|Module=(\.*)\|sev=(\.*)\|Severity=(\S*)\|msg="(\.*)"\|\.*</regex>
+    <order>subtype,devTime,virtualSystem,filename,module,sev,severity,message</order>
+</decoder>
+
+<decoder name="paloalto-system-fields">
+    <parent>paloalto-system</parent>
+    <regex>\.*\|sequence=(\.*)\|ActionFlags=(\.*)\|DeviceGroupHierarchyL1=\.*\|DeviceGroupHierarchyL2=\.*\|DeviceGroupHierarchyL3=\.*\|DeviceGroupHierarchyL4=\.*\|\.*</regex>
+    <order>sequenceNo,actionFlags</order>
+</decoder>
+
+<decoder name="paloalto-system-fields">
+    <parent>paloalto-system</parent>
+    <regex>\.*\|vSrcName=(\.*)\|DeviceName=(\.*)\|\.*</regex>
+    <order>vSrcName,deviceName</order>
+</decoder>
+
+<!--******************Palo Alto HIPMATCH decoders******************* -->
+<!--
+Feb 12 14:14:23 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|HIP-Profile|
+x7C|ProfileToken=0x0|TimeReceived=2026/02/12 14:14:22|DeviceSN=016201046640|cat=HIPMATCH|SubType=0|
+ConfigVersion=11.1.6-h3|devTime=Feb 12 2026 10:14:22 GMT|usrName=eagle\mabbas|VirtualLocation=vsys1
+|identHostName=HO473686L.UCSNET.com|EndpointOSType=Windows|iOSsrc=172.16.125.135|CountOfRepeats=1|
+SequenceNo=7484098496031627145|DGHierarchyLevel1=0|DGHierarchyLevel2=0|DGHierarchyLevel3=0|
+DGHierarchyLevel4=0|VirtualSystemName=|DeviceName=PANFW01|VirtualSystemID=1|SourceIPv6=0.0.0.0|
+HostID=|EndpointSerialNumber=|SourceDeviceCategory=0|SourceDeviceModel=profile|SourceDeviceMac=|
+TimestampDeviceIdentification=2026/02/12 14:14:22|TimeGeneratedHighResolution=2026-02-12T14:14:23.277+04:00|
+devTimeFormat=Feb 12 2026 10:14:22 GMT
+
+-->
+<!--
+  Fields: Subtype,devTime,usrName,VirtualLocation,identHostName,EndpointOSType,iOSsrc,CountOfRepeats,
+  SequenceNo,DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3,DGHierarchyLevel4,VirtualSystemName,DeviceName
+  VirtualSystemID,SourceIPv6,HostID,EndpointSerialNumber,SourceDeviceCategory,SourceDeviceModel,SourceDeviceMac
+-->
+
+<decoder name="paloalto-hipmatch">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=HIPMATCH</prematch>
+</decoder>
+
+<decoder name="paloalto-hipmatch-fields">
+    <parent>paloalto-hipmatch</parent>
+    <regex>\.*\|Subtype=(\.*)\|ConfigVersion=\.*\|devTime=(\.*)\|usrName=(\.*)\|VirtualLocation=(\.*)\|identHostName=(\.*)\|EndpointOSType=(\.*)\|iOSsrc=(\.*)\|CountOfRepeats=(\.*)\|\.*</regex>
+    <order>subtype,devTime,username,virtualLocation,hostname,ostype,srcip,countOfRepeats</order>
+</decoder>
+
+<decoder name="paloalto-hipmatch-fields">
+    <parent>paloalto-hipmatch</parent>
+    <regex>\.*\|SequenceNo=(\.*)\|DGHierarchyLevel1=(\.*)\|DGHierarchyLevel2=(\.*)\|DGHierarchyLevel3=(\.*)\|DGHierarchyLevel4=(\.*)\|VirtualSystemName=(\.*)\|DeviceName=(\.*)\|VirtualSystemID=(\.*)\|\.*</regex>
+    <order>sequenceNo,DGHierarchyLevel1,DGHierarchyLevel2,DGHierarchyLevel3,DGHierarchyLevel4,virtualSystemName,deviceName,virtualSystemID</order>
+</decoder>
+
+<!--******************Palo Alto THREAT decoders******************* -->
+<!-- 
+Feb 24 22:20:59 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|SCAN: Host Sweep(8002)|x7C|
+ReceiveTime=2026/02/24 22:20:58|SerialNumber=016201046640|cat=THREAT|Subtype=scan|devTime=Feb 24 2026 18:20:58 GMT|
+src=137.184.174.149|dst=172.16.50.36|srcPostNAT=0.0.0.0|dstPostNAT=0.0.0.0|RuleName=|usrName=|SourceUser=|
+DestinationUser=|Application=not-applicable|VirtualSystem=vsys1|SourceZone=Untrust-DMZ|DestinationZone=Trust-DMZ|
+IngressInterface=ethernet1/3|EgressInterface=|LogForwardingProfile=DMZ Threats|SessionID=0|RepeatCount=1|srcPort=36774|
+dstPort=443|srcPostNATPort=0|dstPostNATPort=0|Flags=0x2000|proto=tcp|action=alert|Miscellaneous=|ThreatID=SCAN: Host Sweep(8002)|
+URLCategory=any|sev=3|Severity=medium|Direction=client-to-server|sequence=7484098493538761469|ActionFlags=0x0|
+SourceLocation=Canada|DestinationLocation=172.16.0.0-172.31.255.255|ContentType=|PCAP_ID=0|FileDigest=|Cloud=|URLIndex=0|
+RequestMethod=|Subject=|DeviceGroupHierarchyL1=0|DeviceGroupHierarchyL2=0|DeviceGroupHierarchyL3=0|DeviceGroupHierarchyL4=0|
+vSrcName=|DeviceName=PANFW01|SrcUUID=|DstUUID=|TunnelID=0|MonitorTag=|ParentSessionID=0|ParentStartTime=|TunnelType=N/A|
+ThreatCategory=scan|ContentVer=AppThreat-0-0
+
+Jun 14 06:07:45 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|
+XMRig Miner Command and Control Traffic Detection(85886)|x7C|ReceiveTime=2026/06/14 06:07:44|
+SerialNumber=016201046640|cat=THREAT|Subtype=spyware|devTime=Jun 14 2026 02:07:44 GMT|src=185.213.175.176|
+dst=172.17.50.49|srcPostNAT=0.0.0.0|dstPostNAT=0.0.0.0|RuleName=DMZ  Incoming|usrName=|SourceUser=|DestinationUser=|
+Application=json-rpc|VirtualSystem=vsys1|SourceZone=Untrust-DMZ|DestinationZone=Trust-DMZ|
+IngressInterface=ethernet1/3|EgressInterface=ethernet1/4|LogForwardingProfile=Medium Threats|SessionID=348216|
+RepeatCount=1|srcPort=33562|dstPort=443|srcPostNATPort=0|dstPostNATPort=0|Flags=0x6000|proto=tcp|action=reset-both|
+Miscellaneous=|ThreatID=XMRig Miner Command and Control Traffic Detection(85886)|URLCategory=any|sev=5|
+Severity=critical|Direction=client-to-server|sequence=7484098493910195286|ActionFlags=0x0|SourceLocation=Spain|
+DestinationLocation=172.16.0.0-172.31.255.255|ContentType=|PCAP_ID=0|FileDigest=|Cloud=|URLIndex=0|RequestMethod=|
+Subject=|DeviceGroupHierarchyL1=0|DeviceGroupHierarchyL2=0|DeviceGroupHierarchyL3=0|DeviceGroupHierarchyL4=0|
+vSrcName=|DeviceName=PANFW01|SrcUUID=|DstUUID=|TunnelID=0|MonitorTag=|ParentSessionID=0|ParentStartTime=|
+TunnelType=N/A|ThreatCategory=cryptominer|ContentVer=AppThreat-9113-10104
+-->
+<!--
+  Fields: Subtype,devTime,src,dst,srcPostNAT,dstPostNAT,RuleName,usrName,SourceUser,DestinationUser,
+  Application,VirtualSystem,SourceZone,DestinationZone,IngressInterface,EgressInterface,LogForwardingProfile,
+  SessionID,RepeatCount,srcPort,dstPort,srcPostNATPort,dstPostNATPort,Flags,proto,action,Miscellaneous,ThreatID,
+  URLCategory,sev,Severity,Direction,sequence,ActionFlags,SourceLocation,DestinationLocation,ContentType,PCAP_ID,
+  FileDigest,Cloud,URLIndex,RequestMethod,Subject,DeviceGroupHierarchyL1,DeviceGroupHierarchyL2,DeviceGroupHierarchyL3,
+  DeviceGroupHierarchyL4,vSrcName,DeviceName,SrcUUID,DstUUID,TunnelID,MonitorTag,ParentSessionID,ParentStartTime,
+  TunnelType,ThreatCategory
+--> 
+<decoder name="paloalto-threat">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=THREAT</prematch>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|Subtype=(\.*)\|devTime=(\.*)\|src=(\.*)\|dst=(\.*)\|srcPostNAT=(\.*)\|dstPostNAT=(\.*)\|RuleName=\.*\|usrName=(\.*)\|\.*</regex>
+    <order>subtype,devTime,srcip,dstip,srcipPostNAT,dstipPostNAT,username</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|SourceUser=(\.*)\|DestinationUser=(\.*)\|Application=(\.*)\|VirtualSystem=\.*\|SourceZone=(\.*)\|DestinationZone=(\.*)\|\.*</regex>
+    <order>srcuser,dstuser,application,srczone,dstzone</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|IngressInterface=\.*\|EgressInterface=\.*\|LogForwardingProfile=(\.*)\|SessionID=(\.*)\|RepeatCount=(\.*)\|srcPort=(\.*)\|dstPort=(\.*)\|\.*</regex>
+    <order>logForwardingProfile,sessionID,repeatCount,srcport,dstport</order>
+</decoder>
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|srcPostNATPort=(\.*)\|dstPostNATPort=(\.*)\|Flags=(\.*)\|proto=(\.*)\|action=(\.*)\|Miscellaneous=(\.*)\|ThreatID=(\.*)\|\.*</regex>
+    <order>srcPostNATPort,dstPostNATPort,flags,protocol,action,miscellaneous,threatID</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|URLCategory=(\.*)\|sev=(\.*)\|Severity=(\.*)\|Direction=(\.*)\|sequence=(\.*)\|ActionFlags=(\.*)\|SourceLocation=(\.*)\|DestinationLocation=(\.*)\|\.*</regex>
+    <order>urlCategory,sev,severity,direction,sequence,actionFlags,srclocation,dstlocation</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|ContentType=(\.*)\|PCAP_ID=\.*\|FileDigest=(\.*)\|Cloud=(\.*)\|URLIndex=(\.*)\|RequestMethod=(\.*)\|Subject=(\.*)\|\.*</regex>
+    <order>contentType,fileDigest,cloud,urlIndex,requestMethod,subject</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|DeviceName=(\.*)\|SrcUUID=\.*\|DstUUID=\.*\|tunnelID=\.*\|MonitorTag=\.*\|ParentSessionID=\.*\|ParentStartTime=\.*\|ParentStartTime=\.*\|TunnelType=(\.*)\|\.*</regex>
+    <order>deviceName,tunnelType</order>
+</decoder>
+
+<decoder name="paloalto-threat-fields">
+    <parent>paloalto-threat</parent>
+    <regex>\.*\|ThreatCategory=(\.*)\|\.*</regex>
+    <order>threatCategory</order>
+</decoder>
+<!--******************Palo Alto TRAFFIC decoders******************* -->
+<!-- 
+Mar  9 12:50:56 PANFW01 LEEF:2.0|Palo Alto Networks|PAN-OS Syslog Integration|11.1.6-h3|allow|x7C|cat=TRAFFIC|
+devTime=Mar 09 2026 08:50:55 GMT|SerialNumber=016201046640|Subtype=end|src=172.16.176.65|dst=192.9.200.227|
+srcPostNAT=0.0.0.0|dstPostNAT=0.0.0.0|RuleName=Branches-to-HO-False positive|usrName=|DestinationUser=eagle\admgr|
+Application=dns-base|VirtualSystem=vsys1|SourceZone=Untrust-Int-GW|DestinationZone=Trust-Int-GW|
+IngressInterface=ethernet1/19|EgressInterface=ethernet1/20|LogForwardingProfile=Medium Threats|SessionID=827653|
+RepeatCount=1|srcPort=54448|dstPort=53|srcPostNATPort=0|dstPostNATPort=0|Flags=0x4019|proto=udp|totalBytes=231|
+srcBytes=81|dstBytes=150|totalPackets=2|dstPackets=1|srcPackets=1|start=Mar 09 2026 08:50:55 GMT|ElapsedTime=0|
+URLCategory=any|sequence=7484098568435057916|SessionEndReason=aged-out|DeviceGroupHierarchyL1=0|DeviceGroupHierarchyL2=0|
+DeviceGroupHierarchyL3=0|vSrcName=|DeviceName=PANFW01|ActionSource=from-policy|ActionFlags=0x0|SrcUUID=|DstUUID=|TunnelID=0|
+MonitorTag=|ParentSessionID=0|ParentStartTime=|TunnelType=N/ARuleUUID=0054993b-8d33-4fb4-88c6-bcf6b79458a1|PolicyID=|
+LinkDetail=|SDWANCluster=|SDWANDevice=|SDWANClustype=|SDWANSite=|DynamicUsrgrp=|XFFIP=|SrcDeviceCat=|SrcDeviceProf=|
+SrcDeviceModel=|SrcDeviceVendor=|SrcDeviceOS=|SrcDeviceOSv=|SrcHostname=|SrcMac=|DstDeviceCat=|DstDeviceProf=|DstDeviceModel=|
+DstDeviceVendor=|DstDeviceOS=|DstDeviceOSv=|DstHostname=|DstMac=|ContainerName=|PODNamespace=|PODName
+-->
+<!--
+  Fields: devTime,SerialNumber,Subtype,src,dst,srcPostNAT,dstPostNAT,RuleName,usrName,DestinationUser,
+  Application,VirtualSystem,SourceZone,DestinationZone,IngressInterface,EgressInterface,LogForwardingProfile,
+  SessionID,srcBytes,dstBytes,totalPackets,dstPackets,srcPackets,start,ElapsedTime,URLCategory,sequence,
+  SessionEndReason,DeviceGroupHierarchyL1,DeviceGroupHierarchyL2,DeviceGroupHierarchyL3,vSrcName,DeviceName,
+  ActionSource,ActionFlags,SrcUUID,DstUUID,TunnelID,MonitorTag,ParentSessionID,ParentStartTime,
+--> 
+<decoder name="paloalto-traffic">
+    <type>syslog</type>
+    <program_name>LEEF</program_name>
+    <prematch type="pcre2">cat=TRAFFIC</prematch>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|devTime=(\.*)\|SerialNumber=\.*\|Subtype=(\.*)\|src=(\.*)\|dst=(\.*)\|srcPostNAT=(\.*)\|dstPostNAT=(\.*)\|RuleName=(\.*)\|\.*</regex>
+    <order>devTime,subtype,srcip,dstip,srcipPostNAT,dstipPostNAT,rulename</order>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|usrName=(\.*)\|DestinationUser=(\.*)\|Application=(\.*)\|VirtualSystem=\.*\|SourceZone=(\.*)\|DestinationZone=(\.*)\|\.*</regex>
+    <order>srcuser,dstuser,application,srczone,dstzone</order>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|IngressInterface=\.*\|EgressInterface=\.*\|LogForwardingProfile=\.*\|SessionID=(\.*)\|srcBytes=\.*\|dstBytes=\.*\|totalPackets=(\.*)\|\.*</regex>
+    <order>sessionID,totalPackets</order>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|dstPackets=(\.*)\|srcPackets=(\.*)\|start=(\.*)\|ElapsedTime=(\.*)\|URLCategory=(\.*)\|sequence=\.*\|SessionEndReason=(\.*)\|\.*</regex>
+    <order>dstPackets,srcPackets,start,elapsedTime,urlCategory,sessionEndReason</order>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|DeviceGroupHierarchyL1=\.*\|DeviceGroupHierarchyL2=\.*\|DeviceGroupHierarchyL3=(\.*)\|vSrcName=(\.*)\|DeviceName=(\.*)\|ActionFlags=(\.*)\|\.*</regex>
+    <order>deviceName,actionFlags</order>
+</decoder>
+
+<decoder name="paloalto-traffic-fields">
+    <parent>paloalto-traffic</parent>
+    <regex>\.*\|SrcUUID=\.*\|DstUUID=\.*\|TunnelID=\.*\|MonitorTag=\.*\|ParentSessionID=(\.*)\|ParentStartTime=(\.*)\|\.*</regex>
+    <order>parentSessionID,parentStartTime</order>
+</decoder>
