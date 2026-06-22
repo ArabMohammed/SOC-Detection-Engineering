@@ -1,0 +1,174 @@
+{
+  "description": "Wazuh alerts pipeline",
+  "processors": [
+    { "json" : { "field" : "message", "add_to_root": true } },
+    {
+        "script":{
+            "ignore_failure": true,
+            "lang": "painless",
+            "source": "if (ctx.containsKey(\"data\") && ctx.data != null && ctx.data.containsKey(\"attack_type\") && ctx.data.attack_type != null && ctx.data.attack_type != \"\") { def noise = [\"Abuse of Functionality\",\"Buffer Overflow\",\"HTTP Parser Attack\",\"Forceful Browsing\",\"Detection Evasion\",\"Information Leakage\", \"Other Application Activity\",\"Predictable Resource Location\",\"Predictable Resource Location\"]; def parts = ctx.data.attack_type.splitOnToken(\",\"); def kept = new java.util.ArrayList(); for (int i=0;i<parts.length;i++){ def v = parts[i].trim(); if (!noise.contains(v)) { kept.add(v); } } if (kept.size() > 0){ ctx.data.attack_type = String.join(\",\", kept); } else {ctx.data.attack_type = parts[0];} }"
+        }
+    },
+    {
+        "script": {
+            "ignore_failure": true,
+            "lang": "painless",
+            "source": "if (ctx.containsKey(\"data\") && ctx.data != null) { if (ctx.data.containsKey(\"crscore\") && ctx.data.crscore != null && ctx.data.crscore != \"\") { try { def v = ctx.data.crscore.toString().trim(); ctx.data.crscorenumeric = (int) Double.parseDouble(v);} catch (Exception e) { ctx.data.crscorenumeric = 0; } } }"
+        }
+    },
+    {
+        "script":{
+            "ignore_failure": true,
+            "lang": "painless",
+            "source": "if (ctx.containsKey(\"data\") && ctx.data != null && ctx.data.containsKey(\"request\") && ctx.data.request != null && ctx.data.request != \"\"){ def host = \"N\/A\"; def parts = ctx.data.request.splitOnToken(\"\\\\r\\\\n\"); if (parts.length > 0) { for (int i=0;i<parts.length;i++){ def trimmed = parts[i].trim(); if (trimmed.toLowerCase().startsWith(\"host:\")) { host = trimmed.substring(5).trim(); break; } } } ctx.data.host=host; }"
+        }
+    },
+    {
+        "script": {
+            "ignore_failure": true,
+            "lang": "painless",
+            "source": "if (ctx.containsKey(\"data\") && ctx.data != null) { if (ctx.data.containsKey(\"rcvdbyte\") && ctx.data.rcvdbyte != null && ctx.data.rcvdbyte != \"\") { try { def v = ctx.data.rcvdbyte.toString().trim(); ctx.data.rcvdbytenumeric = (int) Double.parseDouble(v);} catch (Exception e) { ctx.data.rcvdbytenumeric = 0; } } }"
+        }
+    },
+    {
+        "script": {
+            "ignore_failure": true,
+            "lang": "painless",
+            "source": "if (ctx.containsKey(\"data\") && ctx.data != null) { if (ctx.data.containsKey(\"sentbyte\") && ctx.data.sentbyte != null && ctx.data.sentbyte != \"\") { try { def v = ctx.data.sentbyte.toString().trim(); ctx.data.sentbytenumeric = (int) Double.parseDouble(v);} catch (Exception e) { ctx.data.sentbytenumeric = 0; } } }"
+        }
+    },
+    {
+      "script": {
+        "ignore_failure": true,
+        "lang": "painless",
+        "source": "if (ctx.containsKey(\"data\") && ctx.data != null && ctx.decoder.name == \"fortinet-fortigate-firewall\" && ctx.data.type==\"traffic\" && ctx.data.subtype==\"forward\"){ if(ctx.data.action==\"accept\" || ctx.data.action==\"close\" || ctx.data.action==\"timeout\"){ if(ctx.data.srcintfrole==\"lan\" && ctx.data.dstintfrole==\"wan\"){ def dstip = ctx.data.dstip; if(dstip != null && dstip.contains('.')){ def parts = dstip.splitOnToken('.'); if(parts.length == 4){ long ip = Long.parseLong(parts[0]) * 16777216L + Long.parseLong(parts[1]) * 65536L + Long.parseLong(parts[2]) * 256L + Long.parseLong(parts[3]); boolean is10 = (ip >= 167772160L && ip <= 184549375L); boolean is172 = (ip >= 2886729728L && ip <= 2887778303L); boolean is192 = (ip >= 3232235520L && ip <= 3232301055L); boolean isLoopback = (ip >= 2130706432L && ip <= 2147483647L); if(!is10 && !is172 && !is192 && !isLoopback){ ctx.data.traffic_direction = 'outbound'; } } } } else if(ctx.data.srcintfrole==\"wan\" && ctx.data.dstintfrole==\"lan\"){ def srcip = ctx.data.srcip; if(srcip != null && srcip.contains('.')){ def parts = srcip.splitOnToken('.'); if(parts.length == 4){ long ip = Long.parseLong(parts[0]) * 16777216L + Long.parseLong(parts[1]) * 65536L + Long.parseLong(parts[2]) * 256L + Long.parseLong(parts[3]); boolean is10 = (ip >= 167772160L && ip <= 184549375L); boolean is172 = (ip >= 2886729728L && ip <= 2887778303L); boolean is192 = (ip >= 3232235520L && ip <= 3232301055L); boolean isLoopback = (ip >= 2130706432L && ip <= 2147483647L); if(!is10 && !is172 && !is192 && !isLoopback){ ctx.data.traffic_direction = 'inbound'; } } } } } }"
+      }
+    },
+
+    {
+      "set": {
+        "field": "data.aws.region",
+        "value": "{{data.aws.awsRegion}}",
+        "override": false,
+        "ignore_failure": true,
+        "ignore_empty_value" : true
+      }
+    },
+    {
+      "set": {
+        "field": "data.aws.accountId",
+        "value": "{{data.aws.aws_account_id}}",
+        "override": false,
+        "ignore_failure": true,
+        "ignore_empty_value" : true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.srcip",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.win.eventdata.ipAddress",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.aws.sourceIPAddress",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.aws.client_ip",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.aws.service.action.networkConnectionAction.remoteIpDetails.ipAddressV4",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.aws.httpRequest.clientIp",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.gcp.jsonPayload.sourceIP",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "geoip": {
+        "field": "data.office365.ClientIP",
+        "target_field": "GeoLocation",
+        "properties": ["city_name", "country_name", "region_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "date": {
+        "field": "timestamp",
+        "target_field": "@timestamp",
+        "formats": ["ISO8601"],
+        "ignore_failure": false
+      }
+    },
+    {
+      "date_index_name": {
+        "field": "timestamp",
+        "date_rounding": "d",
+        "index_name_prefix": "{{fields.index_prefix}}",
+        "index_name_format": "yyyy.MM.dd",
+        "ignore_failure": false
+      }
+    },
+    { "remove": { "field": "message", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "ecs", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "beat", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "input_type", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "tags", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "count", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "@version", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "log", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "offset", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "type", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "host", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "fields", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "event", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "fileset", "ignore_missing": true, "ignore_failure": true } },
+    { "remove": { "field": "service", "ignore_missing": true, "ignore_failure": true } }
+  ],
+  "on_failure" : [{
+    "drop" : { }
+  }]
+}
