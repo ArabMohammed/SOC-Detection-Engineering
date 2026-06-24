@@ -82,9 +82,7 @@ This section contains custom Filebeat ingest pipeline modifications developed to
 ## Overview
 
 The **Threat Weight** feature [https://docs.fortinet.com/document/fortigate/7.0.0/administration-guide/903511/threat-weight], defines multiple fields, including the `crscore` field, which can be used to aggregate and score threats based on user-defined severity levels.
-
 This provides a practical way to calculate a cumulative threat score for each user based on their browsing activity and the websites they visit.
-
 The challenge is that values extracted during the Wazuh decoding phase are stored as **strings**, which prevents them from being aggregated using functions such as `sum()` within OpenSearch Dashboards visualizations.
 
 Two approaches can be used to solve this problem:
@@ -215,7 +213,6 @@ Examples include:
 - Information Leakage
 
 Many of these attack types are generic and frequently appear in almost every attack event. This reduces their usefulness when performing threat hunting, reporting, or dashboarding.
-
 To improve attack classification, the following ingest pipeline script removes common generic attack types and retains only the most relevant attack categories.
 
 ### Processor
@@ -248,3 +245,38 @@ Command Execution
 
 This modification improves attack categorization and produces more meaningful dashboards, reports, and threat-hunting queries.
     
+# Configurations
+
+This section contains configurations and scripts developed to improve the operational stability of our Wazuh SIEM deployment and ensure rapid response when a component becomes unavailable or degraded.
+
+---
+
+## A. SIEM Health Monitoring
+
+To ensure instant notification when a SIEM component is not functioning properly, we developed a Python monitoring script that actively checks the following components:
+
+| Component | What is checked |
+|---|---|
+| **Wazuh Manager** | Daemon status: `wazuh-analysisd`, `wazuh-remoted`, `wazuh-db`, `wazuh-modulesd`, `wazuh-monitord` |
+| **Wazuh Indexer** | OpenSearch cluster health (status, shard assignment, node count) |
+| **Wazuh Dashboard** | HTTP reachability |
+
+### How it works
+
+The script [`configurations/wazuh_siem_health_check.py`](configurations/wazuh_siem_health_check.py) performs the following steps:
+
+1. Authenticates to the Wazuh Manager REST API and checks the status of all critical daemons
+2. Queries the OpenSearch `/_cluster/health` endpoint on the Wazuh Indexer
+3. Sends an HTTP request to verify the Wazuh Dashboard is reachable
+4. Sends an **email alert via Gmail** listing all degraded components when any check fails
+
+### Scheduling
+
+The script is scheduled via a cron job to run every **5 minutes**:
+
+```cron
+*/5 * * * * /usr/bin/python3 /opt/scripts/wazuh_siem_health_check.py >> /var/log/wazuh_health_cron.log 2>&1
+```
+
+> **Note:** A Gmail App Password is required for email alerting.
+> Generate one at [https://myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords).
